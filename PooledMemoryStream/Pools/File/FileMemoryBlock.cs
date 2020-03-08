@@ -8,6 +8,11 @@ namespace PooledMemoryStreams.Pools.Stream
     {
         private System.IO.Stream m_Stream;
 
+        public System.IO.Stream Stream
+        {
+            get { return m_Stream; }
+        }
+
         public FileMemoryBlock(StreamManagerPool p_Pool, System.IO.Stream p_Stream) : base(p_Pool)
         {
             m_Stream = p_Stream;

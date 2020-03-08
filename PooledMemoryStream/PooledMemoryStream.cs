@@ -97,7 +97,7 @@ namespace PooledMemoryStreams
         public override void SetLength(long p_Value)
         {
             if (p_Value < 0)
-                throw new ArgumentException("Value must be positiv", nameof(p_Value));
+                throw new ArgumentException("Value must be positive", nameof(p_Value));
 
             if (p_Value == 0)
             {
@@ -260,12 +260,10 @@ namespace PooledMemoryStreams
             else
             {
                 // We're being finalized.
-
                 if (AppDomain.CurrentDomain.IsFinalizingForUnload())
                 {
                     // If we're being finalized because of a shutdown, don't go any further.
-                    // We have no idea what's already been cleaned up. Triggering events may cause
-                    // a crash.
+                    // We have no idea what's already been cleaned up.
                     base.Dispose(p_Disposing);
                     return;
                 }

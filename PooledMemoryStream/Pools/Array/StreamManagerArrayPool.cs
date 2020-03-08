@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,18 +7,53 @@ namespace PooledMemoryStreams.Pools.Array
 {
     public class StreamManagerArrayPool: StreamManagerPool
     {
-        public StreamManagerArrayPool(int p_BlockSize) : base(p_BlockSize)
+        private ConcurrentStack<ArrayMemoryBlock> m_Pool;
+        private int m_BlockSize;
+
+        public StreamManagerArrayPool(int p_BlockSize): this(Int32.MaxValue, p_BlockSize)
         {
+            
         }
 
-        public override MemoryBlock GetBlock()
+        public StreamManagerArrayPool(int p_MaxBlockCount, int p_BlockSize) : base(p_MaxBlockCount)
         {
-            throw new NotImplementedException();
+            m_BlockSize = p_BlockSize;
+            m_Pool = new ConcurrentStack<ArrayMemoryBlock>();
         }
 
-        public override void ReturnBlock(MemoryBlock p_Block)
+        protected override void DoReturnBlock(MemoryBlock p_Block)
         {
-            throw new NotImplementedException();
+            ArrayMemoryBlock l_Block = (ArrayMemoryBlock)p_Block;
+
+            // Check if there is some free Space in the Pool
+            if (m_Pool.Count < MaxBlockCount)
+            {
+                m_Pool.Push(l_Block);
+            }
         }
+
+        protected override MemoryBlock DoGetBlock()
+        {
+            ArrayMemoryBlock l_Block;
+
+            if (m_Pool.TryPop(out l_Block))
+            {
+                return l_Block;
+            }
+
+            return new ArrayMemoryBlock(this, CreateByteBuffer(), m_BlockSize);
+        }
+
+        protected virtual byte[] CreateByteBuffer()
+        {
+            return new byte[m_BlockSize];
+        }
+
+        public override int GetBlockSize()
+        {
+            return m_BlockSize;
+        }
+
+        
     }
 }

@@ -7,15 +7,17 @@ namespace PooledMemoryStreams.Pools.Array
     public class ArrayMemoryBlock: MemoryBlock
     {
         private Byte[] m_Data;
+        private int m_Length;
 
-        public ArrayMemoryBlock(StreamManagerPool p_Pool, byte[] p_Data) : base(p_Pool)
+        public ArrayMemoryBlock(StreamManagerPool p_Pool, byte[] p_Data, int p_Length) : base(p_Pool)
         {
             m_Data = p_Data;
+            m_Length = p_Length;
         }
 
         public override int GetLength()
         {
-            return m_Data.Length;
+            return m_Length;
         }
 
         public override byte ReadByte(int p_Pos)
