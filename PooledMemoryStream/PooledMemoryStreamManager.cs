@@ -22,24 +22,32 @@ namespace PooledMemoryStreams
 
             long l_NeededBytes = p_TargetCapacity - p_Capacity;
 
-            if (l_NeededBytes <= 0)
-                return l_Blocks;
-
-            // Find Best Pool
-            StreamManagerPool l_Pool = m_ChooserPolicy.FindBestPool(p_Capacity, p_TargetCapacity);
-
-            if (l_Pool == null)
-                throw new Exception($"No Pool found. Capacity {p_Capacity}, TargetCapacity {p_TargetCapacity}");
-
-            // Allocated all nesseary blockes
             while (l_NeededBytes > 0)
             {
-                MemoryBlock l_MemoryBlock = l_Pool.GetBlock();
-                l_NeededBytes = l_NeededBytes - l_MemoryBlock.GetLength();
-                l_Blocks.Add(l_MemoryBlock);
+
+                // Find Best Pool
+                StreamManagerPool l_Pool = m_ChooserPolicy.FindBestPool(p_Capacity, p_TargetCapacity);
+
+                if (l_Pool == null)
+                    throw new Exception($"No Pool found. Capacity {p_Capacity}, TargetCapacity {p_TargetCapacity}, Remaining Bytes {l_NeededBytes}");
+
+                // Allocated all nesseary blockes
+                while (l_NeededBytes > 0)
+                {
+
+                    // If if max usage reached restart and search for a different pool
+                    if (!l_Pool.HasFreeBlocks())
+                        break;
+
+                    MemoryBlock l_MemoryBlock = l_Pool.GetBlock();
+                    l_NeededBytes = l_NeededBytes - l_MemoryBlock.GetLength();
+                    l_Blocks.Add(l_MemoryBlock);
+                }
+
             }
 
             return l_Blocks;
+
         }
 
         public Stream GetStream(int p_Capacity)

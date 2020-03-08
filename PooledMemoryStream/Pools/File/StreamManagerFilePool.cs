@@ -15,7 +15,7 @@ namespace PooledMemoryStreams.Pools.File
             
         }
 
-        public StreamManagerFilePool(int p_MaxBlockCount, string p_CacheDirectory) : base(p_MaxBlockCount)
+        public StreamManagerFilePool(int p_MaxBlocksInUseCount, string p_CacheDirectory) : base(p_MaxBlocksInUseCount)
         {
             m_CacheDirectory = p_CacheDirectory;
             DirectoryUtils.EnsureCreated(m_CacheDirectory);

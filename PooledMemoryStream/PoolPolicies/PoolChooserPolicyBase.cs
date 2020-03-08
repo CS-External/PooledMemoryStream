@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using PooledMemoryStreams.PoolPolicies.Common;
 using PooledMemoryStreams.Pools;
 
 namespace PooledMemoryStreams.PoolPolicies
@@ -27,39 +28,10 @@ namespace PooledMemoryStreams.PoolPolicies
             if (p_Pools.Count == 0)
                 throw new ArgumentException("Pool without Items is not supported", nameof(p_Pools));
 
-            // Sort by BlockSize
-            p_Pools.Sort(SortByBlockSize);
-            List<PoolChooserPolicyPoolItem> l_List = new List<PoolChooserPolicyPoolItem>();
-            PoolChooserPolicyPoolItem l_Last = null;
-
-            foreach (StreamManagerPool l_Pool in p_Pools)
-            {
-                PoolChooserPolicyPoolItem l_CurrentItem = new PoolChooserPolicyPoolItem();
-                l_CurrentItem.Pool = l_Pool;
-
-                if (l_Last == null)
-                {
-                    // First Item
-                    l_CurrentItem.Start = 0;
-                    continue;
-                }
-
-                int l_SpaceBetween = l_CurrentItem.Pool.GetBlockSize() - l_Last.Pool.GetBlockSize();
-
-                if ()
-
-                l_Last = l_CurrentItem;
-            }
-
-            l_Last.End = Int64.MaxValue;
-
-            return l_List;
+            StreamManagerPoolIntervalCalculator l_Calculator = new StreamManagerPoolIntervalCalculator();
+            return l_Calculator.CalcIntervals(p_Pools);
         }
 
-        private int SortByBlockSize(StreamManagerPool p_X, StreamManagerPool p_Y)
-        {
-            return p_X.GetBlockSize().CompareTo(p_X.GetBlockSize());
-        }
 
         public abstract StreamManagerPool FindBestPool(long p_CurrentCapacity, long p_TargetCapacity);
 

@@ -9,14 +9,16 @@ namespace PooledMemoryStreams.Pools.Array
     {
         private ConcurrentStack<ArrayMemoryBlock> m_Pool;
         private int m_BlockSize;
+        public int MaxItemsInPool { get; private set; }
 
-        public StreamManagerArrayPool(int p_BlockSize): this(Int32.MaxValue, p_BlockSize)
+        public StreamManagerArrayPool(int p_BlockSize, int p_MaxItemsInPool) : this(p_BlockSize, p_MaxItemsInPool, Int32.MaxValue)
         {
             
         }
 
-        public StreamManagerArrayPool(int p_MaxBlockCount, int p_BlockSize) : base(p_MaxBlockCount)
+        public StreamManagerArrayPool(int p_BlockSize, int p_MaxItemsInPool, int p_MaxBlocksInUseCount) : base(p_MaxBlocksInUseCount)
         {
+            MaxItemsInPool = p_MaxItemsInPool;
             m_BlockSize = p_BlockSize;
             m_Pool = new ConcurrentStack<ArrayMemoryBlock>();
         }
@@ -26,7 +28,7 @@ namespace PooledMemoryStreams.Pools.Array
             ArrayMemoryBlock l_Block = (ArrayMemoryBlock)p_Block;
 
             // Check if there is some free Space in the Pool
-            if (m_Pool.Count < MaxBlockCount)
+            if (m_Pool.Count < MaxItemsInPool)
             {
                 m_Pool.Push(l_Block);
             }

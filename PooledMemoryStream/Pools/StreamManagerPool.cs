@@ -9,16 +9,16 @@ namespace PooledMemoryStreams.Pools
     {
         private int m_BlocksInUse = 0;
 
-        public int MaxBlockCount { get; private set; }
+        public int MaxBlocksInUseCount { get; private set; }
 
         protected StreamManagerPool()
         {
-            MaxBlockCount = Int32.MaxValue;
+            MaxBlocksInUseCount = Int32.MaxValue;
         }
 
-        protected StreamManagerPool(int p_MaxBlockCount)
+        protected StreamManagerPool(int p_MaxBlocksInUseCount)
         {
-            MaxBlockCount = p_MaxBlockCount;
+            MaxBlocksInUseCount = p_MaxBlocksInUseCount;
         }
 
         protected abstract void DoReturnBlock(MemoryBlock p_Block);
@@ -44,5 +44,9 @@ namespace PooledMemoryStreams.Pools
             DoReturnBlock(p_Block);
         }
 
+        public virtual bool HasFreeBlocks()
+        {
+            return MaxBlocksInUseCount > m_BlocksInUse;
+        }
     }
 }
