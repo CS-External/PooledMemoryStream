@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace PooledMemoryStreams.Pools.Stream
+namespace PooledMemoryStreams.Pools.File
 {
     public class FileMemoryBlock: MemoryBlock
     {
@@ -25,25 +23,33 @@ namespace PooledMemoryStreams.Pools.Stream
 
         public override byte ReadByte(int p_Pos)
         {
-            m_Stream.Position = p_Pos;
+            if (m_Stream.Position != p_Pos)
+                m_Stream.Position = p_Pos;
+
             return (byte)m_Stream.ReadByte();
         }
 
         public override void WriteByte(int p_Pos, byte p_Value)
         {
-            m_Stream.Position = p_Pos;
+            if (m_Stream.Position != p_Pos)
+                m_Stream.Position = p_Pos;
+
             m_Stream.WriteByte(p_Value);
         }
 
         public override void Read(int p_Pos, byte[] p_Buffer, int p_Offset, int p_Count)
         {
-            m_Stream.Position = p_Pos;
+            if (m_Stream.Position != p_Pos)
+                m_Stream.Position = p_Pos;
+
             m_Stream.Read(p_Buffer, p_Offset, p_Count);
         }
 
         public override void Write(int p_Pos, byte[] p_Buffer, int p_Offset, int p_Count)
         {
-            m_Stream.Position = p_Pos;
+            if (m_Stream.Position != p_Pos)
+                m_Stream.Position = p_Pos;
+
             m_Stream.Write(p_Buffer, p_Offset, p_Count);
         }
     }

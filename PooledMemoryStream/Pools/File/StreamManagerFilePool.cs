@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using PooledMemoryStreams.Pools.Stream;
 
 namespace PooledMemoryStreams.Pools.File
 {
