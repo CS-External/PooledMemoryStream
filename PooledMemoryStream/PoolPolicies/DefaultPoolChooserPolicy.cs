@@ -20,15 +20,21 @@ namespace PooledMemoryStreams.PoolPolicies
             Boolean l_CheckRange = true;
             StreamManagerPool l_LastPoolWithFreeBlocks = null;
 
+            // To find the correct Buffersize we using the capacity
+            // Simplified: Large Capacity -> Large Buffer
+
             foreach (PoolChooserPolicyPoolItem l_PoolItem in m_Pools)
             {
                 if (l_CheckRange)
                 {
+                    
                     if (l_PoolItem.IsInRange(p_TargetCapacity))
                     {
+                        // Check if Space left in the Pool
                         if (l_PoolItem.Pool.HasFreeBlocks())
                             return l_PoolItem.Pool;
 
+                        // Disable Range check for next checks
                         l_CheckRange = false;
                     }
                     else
@@ -44,7 +50,7 @@ namespace PooledMemoryStreams.PoolPolicies
                 }
             }
 
-
+            //if we dont find a pool with matching size or large we return the last with some free space
             return l_LastPoolWithFreeBlocks;
         }
     }

@@ -64,7 +64,7 @@ namespace PooledMemoryStreams
 
         public override void Flush()
         {
-
+            // Noting to do
         }
 
         public override long Seek(long p_Offset, SeekOrigin p_Origin)
@@ -101,6 +101,7 @@ namespace PooledMemoryStreams
 
             if (p_Value == 0)
             {
+                // Reset so we can release all Blocks
                 foreach (PooledMemoryStreamDataBlock l_DataBlock in m_DataBlocks)
                 {
                     l_DataBlock.SourceBlock.ReturnBlock();
@@ -151,6 +152,8 @@ namespace PooledMemoryStreams
                 {
                     m_BlockAndOffset.BlockIndex++;
 
+                    // If we reached the last buffer no any data available 
+                    // stop reading
                     if (m_DataBlocks.Count <= m_BlockAndOffset.BlockIndex)
                         break;
 

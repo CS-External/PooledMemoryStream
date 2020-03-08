@@ -31,7 +31,7 @@ namespace PooledMemoryStreams
                 if (l_Pool == null)
                     throw new Exception($"No Pool found. Capacity {p_Capacity}, TargetCapacity {p_TargetCapacity}, Remaining Bytes {l_NeededBytes}");
 
-                // Allocated all nesseary blockes
+                // Allocated all necessary blocks
                 while (l_NeededBytes > 0)
                 {
 
