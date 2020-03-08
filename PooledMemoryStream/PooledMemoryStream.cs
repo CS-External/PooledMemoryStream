@@ -142,14 +142,15 @@ namespace PooledMemoryStreams
             while (true)
             {
 
-                int l_AmountToCopy = Math.Min(m_BlockAndOffset.Block.Length, l_BytesRemaining);
+                int l_AmountToCopy = Math.Min(m_BlockAndOffset.Block.Length - m_BlockAndOffset.Offset, l_BytesRemaining);
                 m_BlockAndOffset.Block.Read(m_BlockAndOffset.Offset, p_Buffer, p_Offset, l_AmountToCopy);
                 l_BytesReaded = l_BytesReaded + l_AmountToCopy;
                 l_BytesRemaining = l_BytesRemaining - l_AmountToCopy;
-                p_Offset = p_Offset + l_AmountToCopy;
+                
 
                 if (l_BytesRemaining > 0)
                 {
+                    p_Offset = p_Offset + l_AmountToCopy;
                     m_BlockAndOffset.BlockIndex++;
 
                     // If we reached the last buffer no any data available 
@@ -174,7 +175,17 @@ namespace PooledMemoryStreams
         private void FindCurrentBlockAndOffset()
         {
             m_AccessBlock.Start = m_Position;
-            m_BlockAndOffset.BlockIndex = m_DataBlocks.BinarySearch(m_AccessBlock, PooledMemoryStreamDataBlockComparer.Instance);
+            int l_Index = m_DataBlocks.BinarySearch(m_AccessBlock, PooledMemoryStreamDataBlockComparer.Instance);
+
+            if (l_Index < 0)
+            {
+                m_BlockAndOffset.BlockIndex = (~l_Index) - 1;
+            }
+            else
+            {
+                m_BlockAndOffset.BlockIndex = l_Index;
+            }
+            
             m_BlockAndOffset.Block = m_DataBlocks[m_BlockAndOffset.BlockIndex];
             m_BlockAndOffset.Offset = (int)(m_Position - m_BlockAndOffset.Block.Start);
         }
@@ -197,13 +208,13 @@ namespace PooledMemoryStreams
 
                 while (true)
                 {
-                    int l_AmountToCopy = Math.Min(m_BlockAndOffset.Block.Length, l_BytesRemaining);
+                    int l_AmountToCopy = Math.Min(m_BlockAndOffset.Block.Length - m_BlockAndOffset.Offset, l_BytesRemaining);
                     m_BlockAndOffset.Block.Write(m_BlockAndOffset.Offset, p_Buffer, p_Offset, l_AmountToCopy);
                     l_BytesRemaining = l_BytesRemaining - l_AmountToCopy;
-                    p_Offset = p_Offset + l_AmountToCopy;
-
+                    
                     if (l_BytesRemaining > 0)
                     {
+                        p_Offset = p_Offset + l_AmountToCopy;
                         m_BlockAndOffset.BlockIndex++;
                         m_BlockAndOffset.Block = m_DataBlocks[m_BlockAndOffset.BlockIndex];
                         m_BlockAndOffset.Offset = 0;
@@ -216,12 +227,13 @@ namespace PooledMemoryStreams
 
             }
 
+            m_Position = l_EndPosition;
+
             if (m_Length < m_Position)
             {
                 m_Length = m_Position;
             }
 
-            m_Position = l_EndPosition;
         }
 
         public override bool CanRead
@@ -322,7 +334,7 @@ namespace PooledMemoryStreams
                 l_DataBlock.ReadByte = l_Block.ReadByte;
                 l_DataBlock.WriteByte = l_Block.WriteByte;
                 l_DataBlock.Length = l_Block.GetLength();
-                l_DataBlock.Start = l_LastBock.Start + l_LastBock.Length + 1;
+                l_DataBlock.Start = l_LastBock.Start + l_LastBock.Length;
                 m_DataBlocks.Add(l_DataBlock);
                 m_Capacity = m_Capacity + l_DataBlock.Length;
 
