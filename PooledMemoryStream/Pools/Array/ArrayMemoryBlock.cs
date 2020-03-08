@@ -32,7 +32,7 @@ namespace PooledMemoryStreams.Pools.Array
 
         public override void Read(int p_Pos, byte[] p_Buffer, int p_Offset, int p_Count)
         {
-            System.Array.Copy(m_Data, p_Pos, m_Data, p_Offset, p_Count);
+            System.Array.Copy(m_Data, p_Pos, p_Buffer, p_Offset, p_Count);
         }
 
         public override void Write(int p_Pos, byte[] p_Buffer, int p_Offset, int p_Count)
