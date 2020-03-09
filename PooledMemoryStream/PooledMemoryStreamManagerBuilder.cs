@@ -9,7 +9,7 @@ namespace PooledMemoryStreams
 {
     public class PooledMemoryStreamManagerBuilder
     {
-        public static PooledMemoryStreamManager CreatePool()
+        public static PooledMemoryStreamManager CreateMediumPool()
         {
             List<StreamManagerPool> l_List = new List<StreamManagerPool>();
             l_List.Add(new StreamManagerArrayPool(1024, 1000));
