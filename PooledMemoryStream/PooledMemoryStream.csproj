@@ -4,6 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>PooledMemoryStream</AssemblyName>
     <RootNamespace>PooledMemoryStreams</RootNamespace>
+    <Version>1.0.1</Version>
+    <Authors>Christian</Authors>
+    <Company />
   </PropertyGroup>
 
 </Project>
