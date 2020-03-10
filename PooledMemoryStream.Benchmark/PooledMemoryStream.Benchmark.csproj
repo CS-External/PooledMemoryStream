@@ -211,6 +211,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Benchmarks\CreateWriteDisposeBenchmark.cs" />
     <Compile Include="Benchmarks\ReadBenchmark.cs" />
     <Compile Include="Benchmarks\WriteBenchmark.cs" />
     <Compile Include="Program.cs" />
