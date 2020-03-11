@@ -18,7 +18,7 @@ namespace PooledMemoryStream.Test.Pools.File
 
             FileStream l_FileStream = new FileStream(l_TempFileName, FileMode.Open);
             l_FileStream.Write(p_Content, 0, p_Content.Length);    
-            return new FileMemoryBlock(new StreamManagerFilePool(Path.GetTempPath()), l_FileStream);
+            return new FileMemoryBlock(new StreamManagerFilePool("test", Path.GetTempPath()), l_FileStream);
         }
 
         public void Dispose()

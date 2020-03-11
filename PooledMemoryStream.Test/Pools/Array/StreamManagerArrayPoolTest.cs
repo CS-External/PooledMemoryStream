@@ -23,7 +23,7 @@ namespace PooledMemoryStream.Test.Pools.Array
 
         public override StreamManagerPool CreatePool()
         {
-            return new StreamManagerArrayPool(1, 1);
+            return new StreamManagerArrayPool("Test", 1, 1);
         }
     }
 }

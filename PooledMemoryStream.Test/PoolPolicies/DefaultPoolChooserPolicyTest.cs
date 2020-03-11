@@ -19,12 +19,12 @@ namespace PooledMemoryStream.Test.PoolPolicies
             PoolChooserPolicyPoolItem l_Item = new PoolChooserPolicyPoolItem();
             l_Item.Start = 0;
             l_Item.End = 10;
-            l_Item.Pool = new StreamManagerArrayPool(1, 1, 1);
+            l_Item.Pool = new StreamManagerArrayPool("1", 1, 1, 1);
             l_Items.Add(l_Item);
             l_Item = new PoolChooserPolicyPoolItem();
             l_Item.Start = 11;
             l_Item.End = 20;
-            l_Item.Pool = new StreamManagerArrayPool(1, 1, 1);
+            l_Item.Pool = new StreamManagerArrayPool("2", 1, 1, 1);
             l_Items.Add(l_Item);
 
             DefaultPoolChooserPolicy l_Chooser = new DefaultPoolChooserPolicy(l_Items);
@@ -41,17 +41,17 @@ namespace PooledMemoryStream.Test.PoolPolicies
             PoolChooserPolicyPoolItem l_Item = new PoolChooserPolicyPoolItem();
             l_Item.Start = 0;
             l_Item.End = 10;
-            l_Item.Pool = new StreamManagerArrayPool(1, 0, 1);
+            l_Item.Pool = new StreamManagerArrayPool("1", 1, 0, 1);
             l_Items.Add(l_Item);
             l_Item = new PoolChooserPolicyPoolItem();
             l_Item.Start = 11;
             l_Item.End = 20;
-            l_Item.Pool = new StreamManagerArrayPool(1, 0, 0);
+            l_Item.Pool = new StreamManagerArrayPool("2", 1, 0, 0);
             l_Items.Add(l_Item);
             l_Item = new PoolChooserPolicyPoolItem();
             l_Item.Start = 21;
             l_Item.End = 30;
-            l_Item.Pool = new StreamManagerArrayPool(1, 0, 1);
+            l_Item.Pool = new StreamManagerArrayPool("3", 1, 0, 1);
             l_Items.Add(l_Item);
 
             DefaultPoolChooserPolicy l_Chooser = new DefaultPoolChooserPolicy(l_Items);
@@ -68,17 +68,17 @@ namespace PooledMemoryStream.Test.PoolPolicies
             PoolChooserPolicyPoolItem l_Item = new PoolChooserPolicyPoolItem();
             l_Item.Start = 0;
             l_Item.End = 10;
-            l_Item.Pool = new StreamManagerArrayPool(1, 0, 1);
+            l_Item.Pool = new StreamManagerArrayPool("1", 1, 0, 1);
             l_Items.Add(l_Item);
             l_Item = new PoolChooserPolicyPoolItem();
             l_Item.Start = 11;
             l_Item.End = 20;
-            l_Item.Pool = new StreamManagerArrayPool(1, 0, 0);
+            l_Item.Pool = new StreamManagerArrayPool("2", 1, 0, 0);
             l_Items.Add(l_Item);
             l_Item = new PoolChooserPolicyPoolItem();
             l_Item.Start = 21;
             l_Item.End = 30;
-            l_Item.Pool = new StreamManagerArrayPool(1, 0, 0);
+            l_Item.Pool = new StreamManagerArrayPool("3", 1, 0, 0);
             l_Items.Add(l_Item);
 
             DefaultPoolChooserPolicy l_Chooser = new DefaultPoolChooserPolicy(l_Items);
@@ -96,17 +96,17 @@ namespace PooledMemoryStream.Test.PoolPolicies
             PoolChooserPolicyPoolItem l_Item = new PoolChooserPolicyPoolItem();
             l_Item.Start = 0;
             l_Item.End = 10;
-            l_Item.Pool = new StreamManagerArrayPool(1, 0, 0);
+            l_Item.Pool = new StreamManagerArrayPool("1", 1, 0, 0);
             l_Items.Add(l_Item);
             l_Item = new PoolChooserPolicyPoolItem();
             l_Item.Start = 11;
             l_Item.End = 20;
-            l_Item.Pool = new StreamManagerArrayPool(1, 0, 0);
+            l_Item.Pool = new StreamManagerArrayPool("2", 1, 0, 0);
             l_Items.Add(l_Item);
             l_Item = new PoolChooserPolicyPoolItem();
             l_Item.Start = 21;
             l_Item.End = 30;
-            l_Item.Pool = new StreamManagerArrayPool(1, 0, 0);
+            l_Item.Pool = new StreamManagerArrayPool("3", 1, 0, 0);
             l_Items.Add(l_Item);
 
             DefaultPoolChooserPolicy l_Chooser = new DefaultPoolChooserPolicy(l_Items);
@@ -124,12 +124,12 @@ namespace PooledMemoryStream.Test.PoolPolicies
             PoolChooserPolicyPoolItem l_Item = new PoolChooserPolicyPoolItem();
             l_Item.Start = 0;
             l_Item.End = 10;
-            l_Item.Pool = new StreamManagerArrayPool(1, 0, 1);
+            l_Item.Pool = new StreamManagerArrayPool("1", 1, 0, 1);
             l_Items.Add(l_Item);
             l_Item = new PoolChooserPolicyPoolItem();
             l_Item.Start = 11;
             l_Item.End = 20;
-            l_Item.Pool = new StreamManagerArrayPool(1, 0, 0);
+            l_Item.Pool = new StreamManagerArrayPool("2", 1, 0, 0);
             l_Items.Add(l_Item);
 
             DefaultPoolChooserPolicy l_Chooser = new DefaultPoolChooserPolicy(l_Items);

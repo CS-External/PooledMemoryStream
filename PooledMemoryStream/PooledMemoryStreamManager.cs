@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using PooledMemoryStreams.PoolPolicies;
 using PooledMemoryStreams.Pools;
@@ -14,6 +15,16 @@ namespace PooledMemoryStreams
         public PooledMemoryStreamManager(IPoolChooserPolicy p_ChooserPolicy)
         {
             m_ChooserPolicy = p_ChooserPolicy;
+        }
+
+        public StreamManagerPool GetPoolByName(String p_Name)
+        {
+            return m_ChooserPolicy.GetAllPools().FirstOrDefault(x => x.Name == p_Name);
+        }
+
+        public List<StreamManagerPool> GetAllPools()
+        {
+            return m_ChooserPolicy.GetAllPools();
         }
 
         protected internal virtual List<MemoryBlock> GetBlock(long p_Capacity, long p_TargetCapacity)
@@ -50,7 +61,7 @@ namespace PooledMemoryStreams
 
         }
 
-        public Stream GetStream(int p_Capacity)
+        public Stream GetStream(long p_Capacity)
         {
             return new PooledMemoryStream(p_Capacity, this);
         }

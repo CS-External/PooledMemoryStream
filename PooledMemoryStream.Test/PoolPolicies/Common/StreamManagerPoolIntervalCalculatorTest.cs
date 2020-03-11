@@ -17,10 +17,10 @@ namespace PooledMemoryStream.Test.PoolPolicies.Common
         {
 
             List<StreamManagerPool> l_Pools = new List<StreamManagerPool>();
-            l_Pools.Add(new StreamManagerArrayPool(1024, 1));
-            l_Pools.Add(new StreamManagerArrayPool(10 * 1024, 1));
-            l_Pools.Add(new StreamManagerArrayPool(30 * 1024, 1));
-            l_Pools.Add(new StreamManagerArrayPool(100 * 1024, 1));
+            l_Pools.Add(new StreamManagerArrayPool("1", 1024, 1));
+            l_Pools.Add(new StreamManagerArrayPool("2", 10 * 1024, 1));
+            l_Pools.Add(new StreamManagerArrayPool("3", 30 * 1024, 1));
+            l_Pools.Add(new StreamManagerArrayPool("4", 100 * 1024, 1));
 
             StreamManagerPoolIntervalCalculator l_Calculator = new StreamManagerPoolIntervalCalculator();
             List<PoolChooserPolicyPoolItem> l_Intervals = l_Calculator.CalcIntervals(l_Pools);
@@ -49,10 +49,10 @@ namespace PooledMemoryStream.Test.PoolPolicies.Common
         {
 
             List<StreamManagerPool> l_Pools = new List<StreamManagerPool>();
-            l_Pools.Add(new StreamManagerArrayPool(1024, 1));
-            l_Pools.Add(new StreamManagerArrayPool(10 * 1024, 1));
-            l_Pools.Add(new StreamManagerArrayPool(30 * 1024, 1));
-            l_Pools.Add(new StreamManagerArrayPool(Int32.MaxValue, 1));
+            l_Pools.Add(new StreamManagerArrayPool("1", 1024, 1));
+            l_Pools.Add(new StreamManagerArrayPool("2", 10 * 1024, 1));
+            l_Pools.Add(new StreamManagerArrayPool("3", 30 * 1024, 1));
+            l_Pools.Add(new StreamManagerArrayPool("4", Int32.MaxValue, 1));
 
             StreamManagerPoolIntervalCalculator l_Calculator = new StreamManagerPoolIntervalCalculator();
             List<PoolChooserPolicyPoolItem> l_Intervals = l_Calculator.CalcIntervals(l_Pools);

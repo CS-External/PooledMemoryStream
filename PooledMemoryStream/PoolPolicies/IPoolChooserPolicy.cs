@@ -8,5 +8,6 @@ namespace PooledMemoryStreams.PoolPolicies
     public interface IPoolChooserPolicy
     {
         StreamManagerPool FindBestPool(long p_CurrentCapacity, long p_TargetCapacity);
+        List<StreamManagerPool> GetAllPools();
     }
 }

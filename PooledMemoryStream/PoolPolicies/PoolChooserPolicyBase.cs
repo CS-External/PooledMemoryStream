@@ -35,6 +35,17 @@ namespace PooledMemoryStreams.PoolPolicies
 
         public abstract StreamManagerPool FindBestPool(long p_CurrentCapacity, long p_TargetCapacity);
 
+        public List<StreamManagerPool> GetAllPools()
+        {
+            List<StreamManagerPool> l_Pools = new List<StreamManagerPool>();
+
+            foreach (PoolChooserPolicyPoolItem l_PoolItem in m_Pools)
+            {
+                l_Pools.Add(l_PoolItem.Pool);
+            }
+
+            return l_Pools;
+        }
     }
 
     

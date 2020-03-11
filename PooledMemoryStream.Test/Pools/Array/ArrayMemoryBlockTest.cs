@@ -11,7 +11,7 @@ namespace PooledMemoryStream.Test.Pools.Array
     {
         protected override MemoryBlock DoCreateBlock(byte[] p_Content)
         {
-            return new ArrayMemoryBlock(new StreamManagerArrayPool(0, 0), p_Content, p_Content.Length);
+            return new ArrayMemoryBlock(new StreamManagerArrayPool("test", 0, 0), p_Content, p_Content.Length);
         }
     }
 }

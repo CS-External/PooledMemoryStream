@@ -11,7 +11,7 @@ namespace PooledMemoryStream.Test.Pools.File
     {
         public override StreamManagerPool CreatePool()
         {
-            return new StreamManagerFilePool(Path.GetTempPath());
+            return new StreamManagerFilePool("Test", Path.GetTempPath());
         }
     }
 }

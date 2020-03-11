@@ -9,12 +9,12 @@ namespace PooledMemoryStreams.Pools.File
     {
         private String m_CacheDirectory;
 
-        public StreamManagerFilePool(string p_CacheDirectory): this(Int32.MaxValue, p_CacheDirectory)
+        public StreamManagerFilePool(String p_Name, string p_CacheDirectory): this(p_Name, Int32.MaxValue, p_CacheDirectory)
         {
             
         }
 
-        public StreamManagerFilePool(int p_MaxBlocksInUseCount, string p_CacheDirectory) : base(p_MaxBlocksInUseCount)
+        public StreamManagerFilePool(String p_Name, int p_MaxBlocksInUseCount, string p_CacheDirectory) : base(p_Name, p_MaxBlocksInUseCount)
         {
             m_CacheDirectory = p_CacheDirectory;
             DirectoryUtils.EnsureCreated(m_CacheDirectory);
