@@ -21,6 +21,21 @@ namespace PooledMemoryStream.Test.Pools.Array
             Assert.Equal(l_Block, l_Block2);
         }
 
+        [Fact]
+        public void OnPoolToSmallTest()
+        {
+            Boolean l_PoolToSmall = false;
+
+            StreamManagerArrayPool l_StreamManagerPool = new StreamManagerArrayPool("Test", 1, 1);
+            l_StreamManagerPool.OnPoolToSmall += p_Pool => { l_PoolToSmall = true; };
+
+            Assert.False(l_PoolToSmall);
+            MemoryBlock l_Block = l_StreamManagerPool.GetBlock();
+            Assert.False(l_PoolToSmall);
+            MemoryBlock l_Block2 = l_StreamManagerPool.GetBlock();
+            Assert.True(l_PoolToSmall);
+        }
+
         public override StreamManagerPool CreatePool()
         {
             return new StreamManagerArrayPool("Test", 1, 1);
