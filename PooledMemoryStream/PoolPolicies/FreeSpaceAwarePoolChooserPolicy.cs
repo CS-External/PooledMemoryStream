@@ -5,19 +5,25 @@ using PooledMemoryStreams.Pools;
 
 namespace PooledMemoryStreams.PoolPolicies
 {
-    public class DefaultPoolChooserPolicy: PoolChooserPolicyBase
+    public class FreeSpaceAwarePoolChooserPolicy: PoolChooserPolicyBase
     {
-        public DefaultPoolChooserPolicy(List<StreamManagerPool> p_Pools) : base(p_Pools)
+        public FreeSpaceAwarePoolChooserPolicy(List<StreamManagerPool> p_Pools) : base(p_Pools, null)
         {
         }
 
-        public DefaultPoolChooserPolicy(List<PoolChooserPolicyPoolItem> p_Pools) : base(p_Pools)
+        public FreeSpaceAwarePoolChooserPolicy(List<PoolChooserPolicyPoolItem> p_Pools) : base(p_Pools, null)
         {
         }
 
+        public FreeSpaceAwarePoolChooserPolicy(List<StreamManagerPool> p_Pools, StreamManagerPool p_FallbackPool) : base(p_Pools, p_FallbackPool)
+        {
+        }
 
+        public FreeSpaceAwarePoolChooserPolicy(List<PoolChooserPolicyPoolItem> p_Pools, StreamManagerPool p_FallbackPool) : base(p_Pools, p_FallbackPool)
+        {
+        }
 
-        public override StreamManagerPool FindBestPool(long p_CurrentCapacity, long p_TargetCapacity)
+        protected override StreamManagerPool DoFindBestPool(long p_CurrentCapacity, long p_TargetCapacity)
         {
             Boolean l_CheckRange = true;
             StreamManagerPool l_LastPoolWithFreeBlocks = null;
@@ -29,7 +35,7 @@ namespace PooledMemoryStreams.PoolPolicies
             {
                 if (l_CheckRange)
                 {
-                    
+
                     if (l_PoolItem.IsInRange(p_TargetCapacity))
                     {
                         // Check if Space left in the Pool
@@ -54,6 +60,11 @@ namespace PooledMemoryStreams.PoolPolicies
 
             //if we dont find a pool with matching size or large we return the last with some free space
             return l_LastPoolWithFreeBlocks;
+        }
+
+        protected override bool DoPoolHasFreeBlocks(StreamManagerPool p_Pool)
+        {
+            return p_Pool.HasFreeBlocks();
         }
     }
 }

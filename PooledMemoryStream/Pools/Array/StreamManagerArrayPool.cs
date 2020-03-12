@@ -13,23 +13,16 @@ namespace PooledMemoryStreams.Pools.Array
         private int m_ItemsInPool = 0;
         private ConcurrentStack<ArrayMemoryBlock> m_Pool;
         private int m_BlockSize;
-        private readonly int m_MaxItemsInPool;
-
-        public int MaxItemsInPool
-        {
-            get { return m_MaxItemsInPool; }
-        }
 
         public event StreamManagerArrayPoolEvent OnPoolToSmall; 
 
-        public StreamManagerArrayPool(String p_Name, int p_BlockSize, int p_MaxItemsInPool) : this(p_Name, p_BlockSize, p_MaxItemsInPool, Int32.MaxValue)
+        public StreamManagerArrayPool(String p_Name, int p_BlockSize) : this(p_Name, p_BlockSize, Int32.MaxValue)
         {
             
         }
 
-        public StreamManagerArrayPool(String p_Name, int p_BlockSize, int p_MaxItemsInPool, int p_MaxBlocksInUseCount) : base(p_Name, p_MaxBlocksInUseCount)
+        public StreamManagerArrayPool(String p_Name, int p_BlockSize, int p_MaxBlockCount) : base(p_Name, p_MaxBlockCount)
         {
-            m_MaxItemsInPool = p_MaxItemsInPool;
             m_BlockSize = p_BlockSize;
             m_Pool = new ConcurrentStack<ArrayMemoryBlock>();
         }
@@ -39,7 +32,7 @@ namespace PooledMemoryStreams.Pools.Array
             ArrayMemoryBlock l_Block = (ArrayMemoryBlock)p_Block;
 
             // Check if there is some free Space in the Pool
-            if (m_ItemsInPool < m_MaxItemsInPool)
+            if (m_ItemsInPool < m_MaxBlockCount)
             {
                 Interlocked.Increment(ref m_ItemsInPool);
                 m_Pool.Push(l_Block);
@@ -59,7 +52,7 @@ namespace PooledMemoryStreams.Pools.Array
             if (OnPoolToSmall != null)
             {
 
-                if (GetBlocksInUse() + 1 > m_MaxItemsInPool)
+                if (GetBlocksInUse() + 1 > m_MaxBlockCount)
                 {
                     OnPoolToSmall(this);
                 }

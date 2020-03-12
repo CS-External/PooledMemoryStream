@@ -39,7 +39,7 @@ namespace PooledMemoryStreams
                 }
             } 
             
-            return new PooledMemoryStreamManager(new DefaultPoolChooserPolicy(m_Pools));
+            return new PooledMemoryStreamManager(new FreeSpaceAwarePoolChooserPolicy(m_Pools));
         }
 
         public static PooledMemoryStreamManagerBuilder Create()
@@ -47,22 +47,30 @@ namespace PooledMemoryStreams
             return new PooledMemoryStreamManagerBuilder();
         }
 
-        public static PooledMemoryStreamManager CreateMediumPool()
+        /*
+         * Create a PoolBuilder for Large Application. The Pool Size is around  110 MB 
+         */
+        public static PooledMemoryStreamManagerBuilder CreateLargePoolBuilder()
         {
-            List<StreamManagerPool> l_List = new List<StreamManagerPool>();
-            l_List.Add(new StreamManagerArrayPool("Small", 1024, 1000));
-            l_List.Add(new StreamManagerArrayPool("Medium", 10 * 1024, 1000));
-            l_List.Add(new StreamManagerArrayPool("Large", 30 * 1024, 1000));
-            l_List.Add(new StreamManagerArrayPool("VeryLarge", 100 * 1024, 100));
+            return PooledMemoryStreamManagerBuilder.Create()
+                .AddPool(new StreamManagerArrayPool("Small", 1024, 10000))
+                .AddPool(new StreamManagerArrayPool("Medium", 10 * 1024, 5000))
+                .AddPool(new StreamManagerArrayPool("Large", 30 * 1024, 2500))
+                .AddPool(new StreamManagerArrayPool("VeryLarge", 100 * 1024, 100));
+        }
 
-            DefaultPoolChooserPolicy l_PoolChooser = new DefaultPoolChooserPolicy(l_List);
-            return new PooledMemoryStreamManager(l_PoolChooser);
+        /*
+         * Create a Pool for Large Application. The Pool Size is around  110 MB 
+         */
+        public static PooledMemoryStreamManager CreateLargePool()
+        {
+            return CreateLargePoolBuilder().Build();
         }
 
 
         public static PooledMemoryStreamManager CreatePool(List<StreamManagerPool> p_List)
         {
-            DefaultPoolChooserPolicy l_PoolChooser = new DefaultPoolChooserPolicy(p_List);
+            FreeSpaceAwarePoolChooserPolicy l_PoolChooser = new FreeSpaceAwarePoolChooserPolicy(p_List);
             return new PooledMemoryStreamManager(l_PoolChooser);
         }
 

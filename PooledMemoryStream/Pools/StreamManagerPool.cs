@@ -8,12 +8,12 @@ namespace PooledMemoryStreams.Pools
     public abstract class StreamManagerPool
     {
         private int m_BlocksInUse = 0;
-        private readonly int m_MaxBlocksInUseCount;
-        private readonly string m_Name;
+        protected readonly int m_MaxBlockCount;
+        protected readonly string m_Name;
 
-        public int MaxBlocksInUseCount
+        public int MaxBlockCount
         {
-            get { return m_MaxBlocksInUseCount; }
+            get { return m_MaxBlockCount; }
         }
 
         public String Name
@@ -24,13 +24,13 @@ namespace PooledMemoryStreams.Pools
         protected StreamManagerPool(String p_Name)
         {
             m_Name = p_Name;
-            m_MaxBlocksInUseCount = Int32.MaxValue;
+            m_MaxBlockCount = Int32.MaxValue;
         }
 
-        protected StreamManagerPool(String p_Name, int p_MaxBlocksInUseCount)
+        protected StreamManagerPool(String p_Name, int p_MaxBlockCount)
         {
             m_Name = p_Name;
-            m_MaxBlocksInUseCount = p_MaxBlocksInUseCount;
+            m_MaxBlockCount = p_MaxBlockCount;
         }
 
         protected abstract void DoReturnBlock(MemoryBlock p_Block);
@@ -58,7 +58,7 @@ namespace PooledMemoryStreams.Pools
 
         public virtual bool HasFreeBlocks()
         {
-            return m_MaxBlocksInUseCount > m_BlocksInUse;
+            return m_MaxBlockCount > m_BlocksInUse;
         }
     }
 }

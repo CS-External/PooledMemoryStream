@@ -9,5 +9,6 @@ namespace PooledMemoryStreams.PoolPolicies
     {
         StreamManagerPool FindBestPool(long p_CurrentCapacity, long p_TargetCapacity);
         List<StreamManagerPool> GetAllPools();
+        bool PoolHasFreeBlocks(StreamManagerPool p_Pool);
     }
 }

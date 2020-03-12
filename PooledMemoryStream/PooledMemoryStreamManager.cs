@@ -47,7 +47,7 @@ namespace PooledMemoryStreams
                 {
 
                     // If if max usage reached restart and search for a different pool
-                    if (!l_Pool.HasFreeBlocks())
+                    if (!m_ChooserPolicy.PoolHasFreeBlocks(l_Pool))
                         break;
 
                     MemoryBlock l_MemoryBlock = l_Pool.GetBlock();
