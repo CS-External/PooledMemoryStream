@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using PooledMemoryStreams.PoolPolicies;
 using PooledMemoryStreams.Pools;
 using PooledMemoryStreams.Pools.Array;
 
-namespace PooledMemoryStreams
+namespace PooledMemoryStreams.Builders
 {
     public class PooledMemoryStreamManagerBuilder
     {
         private List<StreamManagerPool> m_Pools;
-        private StreamManagerArrayPoolEvent m_OnPoolToSmall;
 
         public PooledMemoryStreamManagerBuilder()
         {
@@ -23,21 +20,8 @@ namespace PooledMemoryStreams
             return this;
         }
 
-        public PooledMemoryStreamManagerBuilder OnPoolToSmall(StreamManagerArrayPoolEvent p_Event)
-        {
-            m_OnPoolToSmall = p_Event;
-            return this;
-        }
-
         public PooledMemoryStreamManager Build()
         {
-            foreach (StreamManagerPool l_Pool in m_Pools)
-            {
-                if (l_Pool is StreamManagerArrayPool)
-                {
-                    ((StreamManagerArrayPool) l_Pool).OnPoolToSmall += m_OnPoolToSmall;
-                }
-            } 
             
             return new PooledMemoryStreamManager(new FreeSpaceAwarePoolChooserPolicy(m_Pools));
         }

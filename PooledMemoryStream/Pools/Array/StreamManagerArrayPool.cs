@@ -14,8 +14,6 @@ namespace PooledMemoryStreams.Pools.Array
         private ConcurrentStack<ArrayMemoryBlock> m_Pool;
         private int m_BlockSize;
 
-        public event StreamManagerArrayPoolEvent OnPoolToSmall; 
-
         public StreamManagerArrayPool(String p_Name, int p_BlockSize) : this(p_Name, p_BlockSize, Int32.MaxValue)
         {
             
@@ -49,19 +47,8 @@ namespace PooledMemoryStreams.Pools.Array
                 return l_Block;
             }
 
-            if (OnPoolToSmall != null)
-            {
-
-                if (GetBlocksInUse() + 1 > m_MaxBlockCount)
-                {
-                    OnPoolToSmall(this);
-                }
-
-            }
-
             return new ArrayMemoryBlock(this, CreateByteBuffer(), m_BlockSize);
 
-            
         }
 
         protected virtual byte[] CreateByteBuffer()

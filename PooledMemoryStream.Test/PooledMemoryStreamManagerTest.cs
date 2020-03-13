@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using PooledMemoryStreams;
+using PooledMemoryStreams.Builders;
 using PooledMemoryStreams.PoolPolicies;
 using PooledMemoryStreams.Pools;
 using PooledMemoryStreams.Pools.Array;

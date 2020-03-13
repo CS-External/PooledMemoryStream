@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using PooledMemoryStreams;
+using PooledMemoryStreams.Builders;
 
 namespace PooledMemoryStream.Benchmark.Benchmarks
 {
