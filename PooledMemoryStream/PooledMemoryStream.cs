@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using PooledMemoryStreams.Common;
 using PooledMemoryStreams.Pools;
+using PooledMemoryStreams.Watchers;
 
 namespace PooledMemoryStreams
 {

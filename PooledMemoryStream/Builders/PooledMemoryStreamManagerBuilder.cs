@@ -1,29 +1,54 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
 using PooledMemoryStreams.PoolPolicies;
 using PooledMemoryStreams.Pools;
 using PooledMemoryStreams.Pools.Array;
+using PooledMemoryStreams.Watchers;
+using PooledMemoryStreams.Watchers.Default;
 
 namespace PooledMemoryStreams.Builders
 {
-    public class PooledMemoryStreamManagerBuilder
+    public class PooledMemoryStreamManagerBuilder: IPoolBuilder, IPoolManagerBuilder, IPoolPolicyBuilder, IPoolWatcherBuilder
     {
         private List<StreamManagerPool> m_Pools;
+        private IPoolChooserPolicy m_PoolChooserPolicy;
+        private IPoolWatcher m_PoolWatcher;
+        private IPoolWatcherTrigger m_PoolWatcherTrigger;
 
         public PooledMemoryStreamManagerBuilder()
         {
             m_Pools = new List<StreamManagerPool>();
         }
 
-        public PooledMemoryStreamManagerBuilder AddPool(StreamManagerArrayPool p_Pool)
+        public IPoolBuilder AddPool(StreamManagerArrayPool p_Pool)
         {
             m_Pools.Add(p_Pool);
             return this;
         }
 
+        public IPoolPolicyBuilder UsePolicy<T>() where T : IPoolChooserPolicy
+        {
+            return UsePolicy(typeof(T));
+        }
+
+        public IPoolPolicyBuilder UsePolicy(Type p_Type)
+        {
+            m_PoolChooserPolicy = (IPoolChooserPolicy)Activator.CreateInstance(p_Type, new object[] {m_Pools});
+            return this;
+        }
+
+
+
+
         public PooledMemoryStreamManager Build()
         {
-            
-            return new PooledMemoryStreamManager(new FreeSpaceAwarePoolChooserPolicy(m_Pools));
+            if (m_PoolWatcher != null && m_PoolWatcherTrigger == null)
+            {
+                m_PoolWatcherTrigger = new PoolWatcherTrigger(); 
+            }
+
+            return new PooledMemoryStreamManager(m_PoolChooserPolicy, m_PoolWatcher, m_PoolWatcherTrigger);
         }
 
         public static PooledMemoryStreamManagerBuilder Create()
@@ -34,7 +59,7 @@ namespace PooledMemoryStreams.Builders
         /*
          * Create a PoolBuilder for Large Application. The Pool Size is around  110 MB 
          */
-        public static PooledMemoryStreamManagerBuilder CreateLargePoolBuilder()
+        public static IPoolBuilder CreateLargePoolBuilder()
         {
             return PooledMemoryStreamManagerBuilder.Create()
                 .AddPool(new StreamManagerArrayPool("Small", 1024, 10000))
@@ -51,12 +76,28 @@ namespace PooledMemoryStreams.Builders
             return CreateLargePoolBuilder().Build();
         }
 
-
-        public static PooledMemoryStreamManager CreatePool(List<StreamManagerPool> p_List)
+        public IPoolWatcherBuilder UseWatcher<T>() where T : IPoolWatcher
         {
-            FreeSpaceAwarePoolChooserPolicy l_PoolChooser = new FreeSpaceAwarePoolChooserPolicy(p_List);
-            return new PooledMemoryStreamManager(l_PoolChooser);
+            m_PoolWatcher = Activator.CreateInstance<T>();
+            return this;
         }
 
+        public IPoolWatcherBuilder UseWatcher(IPoolWatcher p_PoolWatcher)
+        {
+            m_PoolWatcher = p_PoolWatcher;
+            return this;
+        }
+
+        public IPoolBuilder UseTrigger<T>() where T : IPoolWatcherTrigger
+        {
+            m_PoolWatcherTrigger = Activator.CreateInstance<T>();
+            return this;
+        }
+
+        public IPoolBuilder UseTrigger(IPoolWatcherTrigger p_PoolWatcherTrigger)
+        {
+            m_PoolWatcherTrigger = p_PoolWatcherTrigger;
+            return this;
+        }
     }
 }

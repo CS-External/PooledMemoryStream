@@ -8,7 +8,4 @@
     <Authors>Christian</Authors>
     <Company />
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Watchers\" />
-  </ItemGroup>
 </Project>

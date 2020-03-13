@@ -54,13 +54,12 @@ namespace PooledMemoryStream.Test
 
         private PooledMemoryStreamManager CreatePool()
         {
-            List<StreamManagerPool> l_List = new List<StreamManagerPool>();
-            l_List.Add(new StreamManagerArrayPool("1", 1024, 1000));
-            l_List.Add(new StreamManagerArrayPool("2", 10 * 1024, 1000));
-            l_List.Add(new StreamManagerArrayPool("3", 30 * 1024, 1000));
-            l_List.Add(new StreamManagerArrayPool("4", 100 * 1024, 100));
-
-            return PooledMemoryStreamManagerBuilder.CreatePool(l_List);
+            return PooledMemoryStreamManagerBuilder.Create()
+                .AddPool(new StreamManagerArrayPool("1", 1024, 1000))
+                .AddPool(new StreamManagerArrayPool("2", 10 * 1024, 1000))
+                .AddPool(new StreamManagerArrayPool("3", 30 * 1024, 1000))
+                .AddPool(new StreamManagerArrayPool("4", 100 * 1024, 100))
+                .Build();
         }
     }
 }

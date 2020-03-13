@@ -1,20 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using PooledMemoryStreams.PoolPolicies;
 using PooledMemoryStreams.Pools;
+using PooledMemoryStreams.Watchers;
 
 namespace PooledMemoryStreams
 {
-    public class PooledMemoryStreamManager
+    public class PooledMemoryStreamManager: IDisposable
     {
         private IPoolChooserPolicy m_ChooserPolicy;
+        private IPoolWatcher m_PoolWatcher;
+        private IPoolWatcherTrigger m_PoolWatcherTrigger;
 
-        public PooledMemoryStreamManager(IPoolChooserPolicy p_ChooserPolicy)
+        public PooledMemoryStreamManager(IPoolChooserPolicy p_ChooserPolicy, IPoolWatcher p_PoolWatcher, IPoolWatcherTrigger p_PoolWatcherTrigger)
         {
             m_ChooserPolicy = p_ChooserPolicy;
+            m_PoolWatcher = p_PoolWatcher;
+            m_PoolWatcherTrigger = p_PoolWatcherTrigger;
+
+            Init();
+        }
+
+        private void Init()
+        {
+            if (m_PoolWatcher == null && m_PoolWatcherTrigger == null)
+                return;
+
+            if (m_PoolWatcher != null && m_PoolWatcherTrigger == null)
+                throw new ArgumentException("If you provide a PoolWatcher you need also provide also a PoolWatcherTrigger");
+
+            m_PoolWatcherTrigger.Start(ExecuteWatcher);
         }
 
         public StreamManagerPool GetPoolByName(String p_Name)
@@ -25,6 +44,40 @@ namespace PooledMemoryStreams
         public List<StreamManagerPool> GetAllPools()
         {
             return m_ChooserPolicy.GetAllPools();
+        }
+
+        
+
+        public Stream GetStream(long p_Capacity)
+        {
+            return new PooledMemoryStream(p_Capacity, this);
+        }
+
+        public Stream GetStream()
+        {
+            return new PooledMemoryStream(0, this);
+        }
+
+        public void Dispose()
+        {
+            if (m_PoolWatcherTrigger != null)
+            {
+                m_PoolWatcherTrigger.Stop();
+            }
+        }
+
+        protected virtual void ExecuteWatcher()
+        {
+            try
+            {
+                List<StreamManagerPool> l_Pools = m_ChooserPolicy.GetAllPools();
+                m_PoolWatcher.Watch(l_Pools);
+            }
+            catch (Exception e)
+            {
+                if (Debugger.IsAttached)
+                    Debug.WriteLine("Error while execute watcher: " + e);
+            }
         }
 
         protected internal virtual List<MemoryBlock> GetBlock(long p_Capacity, long p_TargetCapacity)
@@ -59,16 +112,6 @@ namespace PooledMemoryStreams
 
             return l_Blocks;
 
-        }
-
-        public Stream GetStream(long p_Capacity)
-        {
-            return new PooledMemoryStream(p_Capacity, this);
-        }
-
-        public Stream GetStream()
-        {
-            return new PooledMemoryStream(0, this);
         }
     }
 }
