@@ -20,7 +20,7 @@ namespace MicroLikeAppFramework.PooledMemoryStream.Test.Pools.File
             l_FileStream.SetLength(p_Content.Length * 2);
             l_FileStream.Position = p_Content.Length;
             l_FileStream.Write(p_Content, 0, p_Content.Length);
-            return new FileMemoryBlock(new StreamManagerFilePool("test", Path.GetTempPath(), 0), l_FileStream, p_Content.Length);
+            return new FileMemoryBlock(new StreamManagerFilePool("test", Path.GetTempPath(), 0), l_FileStream, p_Content.Length, null);
         }
 
         public void Dispose()
