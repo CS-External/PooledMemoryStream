@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>MicroLikeAppFramework.PooledMemoryStream</AssemblyName>
+    <RootNamespace>MicroLikeAppFramework.PooledMemoryStreams</RootNamespace>
+    <Version>1.0.4</Version>
+    <Authors>Christian</Authors>
+    <Company />
+  </PropertyGroup>
+</Project>
