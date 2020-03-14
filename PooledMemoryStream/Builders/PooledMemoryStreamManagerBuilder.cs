@@ -12,10 +12,11 @@ namespace PooledMemoryStreams.Builders
     public class PooledMemoryStreamManagerBuilder: IPoolBuilder, IPoolManagerBuilder, IPoolPolicyBuilder, IPoolWatcherBuilder
     {
         private List<StreamManagerPool> m_Pools;
+        private StreamManagerPool m_FallbackPool;
         private IPoolChooserPolicy m_PoolChooserPolicy;
         private IPoolWatcher m_PoolWatcher;
         private IPoolWatcherTrigger m_PoolWatcherTrigger;
-
+        
         public PooledMemoryStreamManagerBuilder()
         {
             m_Pools = new List<StreamManagerPool>();
@@ -27,6 +28,12 @@ namespace PooledMemoryStreams.Builders
             return this;
         }
 
+        public IPoolBuilder UseFallBackPool(StreamManagerArrayPool p_Pool)
+        {
+            m_FallbackPool = p_Pool;
+            return this;
+        }
+
         public IPoolPolicyBuilder UsePolicy<T>() where T : IPoolChooserPolicy
         {
             return UsePolicy(typeof(T));
@@ -34,18 +41,20 @@ namespace PooledMemoryStreams.Builders
 
         public IPoolPolicyBuilder UsePolicy(Type p_Type)
         {
-            m_PoolChooserPolicy = (IPoolChooserPolicy)Activator.CreateInstance(p_Type, new object[] {m_Pools});
+            m_PoolChooserPolicy = (IPoolChooserPolicy)Activator.CreateInstance(p_Type, new object[] {m_Pools, m_FallbackPool});
             return this;
         }
 
-
-
-
         public PooledMemoryStreamManager Build()
         {
+            if (m_PoolChooserPolicy == null)
+            {
+                UsePolicy<IgnoreFreeSpacePoolChooserPolicy>();
+            }
+
             if (m_PoolWatcher != null && m_PoolWatcherTrigger == null)
             {
-                m_PoolWatcherTrigger = new PoolWatcherTrigger(); 
+                UseTrigger<PoolWatcherTrigger>();
             }
 
             return new PooledMemoryStreamManager(m_PoolChooserPolicy, m_PoolWatcher, m_PoolWatcherTrigger);

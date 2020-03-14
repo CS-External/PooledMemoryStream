@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace PooledMemoryStreams.Pools
 {
-    public abstract class StreamManagerPool
+    public abstract class StreamManagerPool: IPoolStateProvider
     {
         private int m_BlocksInUse = 0;
         protected readonly int m_MaxBlockCount;
