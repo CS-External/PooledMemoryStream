@@ -77,11 +77,51 @@ namespace MicroLikeAppFramework.PooledMemoryStreams.Builders
         }
 
         /*
+         * Create a PoolBuilder for Medium Application. The Pool Size is around  60 MB 
+         */
+        public static IPoolBuilder CreateMediumPoolBuilder()
+        {
+            return PooledMemoryStreamManagerBuilder.Create()
+                .AddPool(new StreamManagerArrayPool("Small", 1024, 5000))
+                .AddPool(new StreamManagerArrayPool("Medium", 10 * 1024, 2500))
+                .AddPool(new StreamManagerArrayPool("Large", 30 * 1024, 1250))
+                .AddPool(new StreamManagerArrayPool("VeryLarge", 100 * 1024, 50));
+        }
+
+        /*
+         * Create a PoolBuilder for Small Application. The Pool Size is around  30 MB 
+         */
+        public static IPoolBuilder CreateSmallPoolBuilder()
+        {
+            return PooledMemoryStreamManagerBuilder.Create()
+                .AddPool(new StreamManagerArrayPool("Small", 1024, 2500))
+                .AddPool(new StreamManagerArrayPool("Medium", 10 * 1024, 1250))
+                .AddPool(new StreamManagerArrayPool("Large", 30 * 1024, 625))
+                .AddPool(new StreamManagerArrayPool("VeryLarge", 100 * 1024, 25));
+        }
+
+        /*
          * Create a Pool for Large Application. The Pool Size is around  110 MB 
          */
         public static PooledMemoryStreamManager CreateLargePool()
         {
             return CreateLargePoolBuilder().Build();
+        }
+
+        /*
+         * Create a Pool for Medium Application. The Pool Size is around  60 MB 
+         */
+        public static PooledMemoryStreamManager CreateMediumPool()
+        {
+            return CreateMediumPoolBuilder().Build();
+        }
+
+        /*
+         * Create a Pool for Medium Application. The Pool Size is around  30 MB 
+         */
+        public static PooledMemoryStreamManager CreateSmallPool()
+        {
+            return CreateSmallPoolBuilder().Build();
         }
 
         public IPoolWatcherBuilder UseWatcher<T>() where T : IPoolWatcher
