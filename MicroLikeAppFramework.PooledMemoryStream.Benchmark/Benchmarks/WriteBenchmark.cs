@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using MicroLikeAppFramework.PooledMemoryStreams;
 using MicroLikeAppFramework.PooledMemoryStreams.Builders;
 
-namespace PooledMemoryStream.Benchmark.Benchmarks
+namespace MicroLikeAppFramework.PooledMemoryStream.Benchmark.Benchmarks
 {
     [MemoryDiagnoser]
     public class WriteBenchmark
