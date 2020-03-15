@@ -21,13 +21,13 @@ namespace MicroLikeAppFramework.PooledMemoryStreams.Builders
             m_Pools = new List<StreamManagerPool>();
         }
 
-        public IPoolBuilder AddPool(StreamManagerArrayPool p_Pool)
+        public IPoolBuilder AddPool(StreamManagerPool p_Pool)
         {
             m_Pools.Add(p_Pool);
             return this;
         }
 
-        public IPoolBuilder UseFallBackPool(StreamManagerArrayPool p_Pool)
+        public IPoolBuilder UseFallBackPool(StreamManagerPool p_Pool)
         {
             m_FallbackPool = p_Pool;
             return this;
