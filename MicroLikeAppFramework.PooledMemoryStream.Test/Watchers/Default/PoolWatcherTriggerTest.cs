@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MicroLikeAppFramework.PooledMemoryStreams.Watchers.Default;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MicroLikeAppFramework.PooledMemoryStream.Test.Watchers.Default
 {
+    [TestClass]
     public class PoolWatcherTriggerTest
     {
-        [Fact]
+        [TestMethod]
         public void TriggerTest()
         {
             Boolean l_Executed = false;
@@ -16,13 +17,13 @@ namespace MicroLikeAppFramework.PooledMemoryStream.Test.Watchers.Default
             l_Watcher.Start(() => { l_Executed = true; });
 
             Task.Delay(150).Wait();
-            Assert.True(l_Executed);
+            Assert.IsTrue(l_Executed);
 
             l_Watcher.Stop();
             l_Executed = false;
             Task.Delay(150).Wait();
 
-            Assert.False(l_Executed);
+            Assert.IsFalse(l_Executed);
         }
 
     }

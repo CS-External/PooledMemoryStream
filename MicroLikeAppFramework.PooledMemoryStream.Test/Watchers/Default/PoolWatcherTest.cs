@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using MicroLikeAppFramework.PooledMemoryStreams.Pools;
 using MicroLikeAppFramework.PooledMemoryStreams.Pools.Array;
 using MicroLikeAppFramework.PooledMemoryStreams.Watchers.Default;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MicroLikeAppFramework.PooledMemoryStream.Test.Watchers.Default
 {
+    [TestClass]
     public class PoolWatcherTest
     {
-        [Fact]
+        [TestMethod]
         public void PoolStateChangedTest()
         {
             Boolean l_Executed = false;
@@ -17,10 +18,10 @@ namespace MicroLikeAppFramework.PooledMemoryStream.Test.Watchers.Default
             PoolWatcher l_Pool = new PoolWatcher();
             l_Pool.OnPoolStateChanged += (p_Pool, p_Args) =>
             {
-                Assert.Equal(PoolWatcherPoolTrend.NothingChanged, p_Args.OldState.Trend);
-                Assert.False(p_Args.OldState.LimitReached);
-                Assert.Equal(PoolWatcherPoolTrend.NothingChanged, p_Args.NewState.Trend);
-                Assert.True(p_Args.NewState.LimitReached);
+                Assert.AreEqual(PoolWatcherPoolTrend.NothingChanged, p_Args.OldState.Trend);
+                Assert.IsFalse(p_Args.OldState.LimitReached);
+                Assert.AreEqual(PoolWatcherPoolTrend.NothingChanged, p_Args.NewState.Trend);
+                Assert.IsTrue(p_Args.NewState.LimitReached);
                 l_Executed = true;
             };
 
@@ -28,23 +29,23 @@ namespace MicroLikeAppFramework.PooledMemoryStream.Test.Watchers.Default
             List<StreamManagerPool> l_List = new List<StreamManagerPool>();
             l_List.Add(l_Manager);
 
-            Assert.False(l_Executed);
+            Assert.IsFalse(l_Executed);
             l_Pool.Watch(l_List);
-            Assert.False(l_Executed);
+            Assert.IsFalse(l_Executed);
 
             MemoryBlock l_MemoryBlock = l_Manager.GetBlock();
             l_Pool.Watch(l_List);
-            Assert.NotNull(l_MemoryBlock);
+            Assert.IsNotNull(l_MemoryBlock);
 
             MemoryBlock l_MemoryBlock2 = l_Manager.GetBlock();
             l_Pool.Watch(l_List);
-            Assert.NotNull(l_MemoryBlock2);
+            Assert.IsNotNull(l_MemoryBlock2);
 
             MemoryBlock l_MemoryBlock3 = l_Manager.GetBlock();
             l_Pool.Watch(l_List);
-            Assert.NotNull(l_MemoryBlock3);
+            Assert.IsNotNull(l_MemoryBlock3);
 
-            Assert.True(l_Executed);
+            Assert.IsTrue(l_Executed);
 
         }
 

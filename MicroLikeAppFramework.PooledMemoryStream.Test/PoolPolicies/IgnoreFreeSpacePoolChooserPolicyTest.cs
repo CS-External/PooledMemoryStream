@@ -2,13 +2,14 @@
 using MicroLikeAppFramework.PooledMemoryStreams.PoolPolicies;
 using MicroLikeAppFramework.PooledMemoryStreams.Pools;
 using MicroLikeAppFramework.PooledMemoryStreams.Pools.Array;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MicroLikeAppFramework.PooledMemoryStream.Test.PoolPolicies
 {
+    [TestClass]
     public class IgnoreFreeSpacePoolChooserPolicyTest
     {
-        [Fact]
+        [TestMethod]
         public void FindBestTest()
         {
 
@@ -27,12 +28,12 @@ namespace MicroLikeAppFramework.PooledMemoryStream.Test.PoolPolicies
             IgnoreFreeSpacePoolChooserPolicy l_Chooser = new IgnoreFreeSpacePoolChooserPolicy(l_Items);
             StreamManagerPool l_Pool = l_Chooser.FindBestPool(15, 15);
 
-            Assert.Equal(l_Items[1].Pool, l_Pool);
-            Assert.True(l_Chooser.PoolHasFreeBlocks(l_Pool));
+            Assert.AreEqual(l_Items[1].Pool, l_Pool);
+            Assert.IsTrue(l_Chooser.PoolHasFreeBlocks(l_Pool));
         }
 
 
-        [Fact]
+        [TestMethod]
         public void IgnoreFreeSpaceTest()
         {
 
@@ -51,11 +52,11 @@ namespace MicroLikeAppFramework.PooledMemoryStream.Test.PoolPolicies
             IgnoreFreeSpacePoolChooserPolicy l_Chooser = new IgnoreFreeSpacePoolChooserPolicy(l_Items);
             StreamManagerPool l_Pool = l_Chooser.FindBestPool(15, 15);
 
-            Assert.Equal(l_Items[1].Pool, l_Pool);
-            Assert.True(l_Chooser.PoolHasFreeBlocks(l_Pool));
+            Assert.AreEqual(l_Items[1].Pool, l_Pool);
+            Assert.IsTrue(l_Chooser.PoolHasFreeBlocks(l_Pool));
         }
 
-        [Fact]
+        [TestMethod]
         public void FallBackTest()
         {
             StreamManagerArrayPool l_FallBack = new StreamManagerArrayPool("Fallback", 1, 1);
@@ -75,11 +76,11 @@ namespace MicroLikeAppFramework.PooledMemoryStream.Test.PoolPolicies
             IgnoreFreeSpacePoolChooserPolicy l_Chooser = new IgnoreFreeSpacePoolChooserPolicy(l_Items, l_FallBack);
             StreamManagerPool l_Pool = l_Chooser.FindBestPool(25, 25);
 
-            Assert.Equal(l_FallBack, l_Pool);
-            Assert.True(l_Chooser.PoolHasFreeBlocks(l_Pool));
+            Assert.AreEqual(l_FallBack, l_Pool);
+            Assert.IsTrue(l_Chooser.PoolHasFreeBlocks(l_Pool));
         }
 
-        [Fact]
+        [TestMethod]
         public void FallBackIgnoreFreeSpaceTest()
         {
             StreamManagerArrayPool l_FallBack = new StreamManagerArrayPool("Fallback", 1, 0);
@@ -99,8 +100,8 @@ namespace MicroLikeAppFramework.PooledMemoryStream.Test.PoolPolicies
             IgnoreFreeSpacePoolChooserPolicy l_Chooser = new IgnoreFreeSpacePoolChooserPolicy(l_Items, l_FallBack);
             StreamManagerPool l_Pool = l_Chooser.FindBestPool(25, 25);
 
-            Assert.Equal(l_FallBack, l_Pool);
-            Assert.True(l_Chooser.PoolHasFreeBlocks(l_Pool));
+            Assert.AreEqual(l_FallBack, l_Pool);
+            Assert.IsTrue(l_Chooser.PoolHasFreeBlocks(l_Pool));
         }
     }
 }

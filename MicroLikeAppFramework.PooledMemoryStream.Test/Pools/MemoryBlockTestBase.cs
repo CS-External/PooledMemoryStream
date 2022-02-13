@@ -1,6 +1,6 @@
 ﻿using System;
 using MicroLikeAppFramework.PooledMemoryStreams.Pools;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MicroLikeAppFramework.PooledMemoryStream.Test.Pools
 {
@@ -8,26 +8,26 @@ namespace MicroLikeAppFramework.PooledMemoryStream.Test.Pools
     {
         
 
-        [Fact]
+        [TestMethod]
         public void ReadByteTest()
         {
             MemoryBlock l_MemoryBlock = CreateBlock();
             byte l_ReadByte = l_MemoryBlock.ReadByte(10);
 
-            Assert.Equal(10, l_ReadByte);
+            Assert.AreEqual(10, l_ReadByte);
         }
 
-        [Fact]
+        [TestMethod]
         public void WriteByteTest()
         {
             MemoryBlock l_MemoryBlock = CreateBlock();
             l_MemoryBlock.WriteByte(10, 165);
 
             byte l_ReadByte = l_MemoryBlock.ReadByte(10);
-            Assert.Equal(165, l_ReadByte);
+            Assert.AreEqual(165, l_ReadByte);
         }
 
-        [Fact]
+        [TestMethod]
         public void ReadTest()
         {
             MemoryBlock l_MemoryBlock = CreateBlock();
@@ -37,12 +37,12 @@ namespace MicroLikeAppFramework.PooledMemoryStream.Test.Pools
 
             for (int i = 0; i < l_Buffer.Length; i++)
             {
-                Assert.Equal(i, l_Buffer[i]);
+                Assert.AreEqual(i, l_Buffer[i]);
             }
             
         }
 
-        [Fact]
+        [TestMethod]
         public void WriteTest()
         {
             MemoryBlock l_MemoryBlock = CreateBlock();
@@ -60,7 +60,7 @@ namespace MicroLikeAppFramework.PooledMemoryStream.Test.Pools
 
             for (int i = 0; i < l_Buffer.Length; i++)
             {
-                Assert.Equal(156, l_Buffer[i]);
+                Assert.AreEqual(156, l_Buffer[i]);
             }
         }
 

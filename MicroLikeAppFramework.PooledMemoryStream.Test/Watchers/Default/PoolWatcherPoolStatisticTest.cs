@@ -1,20 +1,21 @@
 ﻿using MicroLikeAppFramework.PooledMemoryStreams.Pools;
 using MicroLikeAppFramework.PooledMemoryStreams.Watchers.Default;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MicroLikeAppFramework.PooledMemoryStream.Test.Watchers.Default
 {
+    [TestClass]
     public class PoolWatcherPoolStatisticTest
     {
-        [Fact]
+        [TestMethod]
         public void UpdateStateTest()
         {
             TestPoolStateProvider l_Provider = new TestPoolStateProvider(50);
 
             PoolWatcherPoolStatistic l_PoolStatistic = new PoolWatcherPoolStatistic(l_Provider);
-            Assert.Equal(PoolWatcherPoolTrend.NothingChanged, l_PoolStatistic.State.Trend);
-            Assert.False(l_PoolStatistic.State.LimitReached);
-            Assert.Equal(0, l_PoolStatistic.State.BlocksInUse);
+            Assert.AreEqual(PoolWatcherPoolTrend.NothingChanged, l_PoolStatistic.State.Trend);
+            Assert.IsFalse(l_PoolStatistic.State.LimitReached);
+            Assert.AreEqual(0, l_PoolStatistic.State.BlocksInUse);
 
             for (int i = 0; i < PoolWatcherPoolStatistic.CONST_MAX_QUEUE_SIZE + 5; i++)
             {
@@ -22,15 +23,15 @@ namespace MicroLikeAppFramework.PooledMemoryStream.Test.Watchers.Default
                 l_PoolStatistic.UpdateState();
             }
 
-            Assert.Equal(PoolWatcherPoolTrend.Growing, l_PoolStatistic.State.Trend);
-            Assert.False(l_PoolStatistic.State.LimitReached);
-            Assert.Equal(24, l_PoolStatistic.State.BlocksInUse);
+            Assert.AreEqual(PoolWatcherPoolTrend.Growing, l_PoolStatistic.State.Trend);
+            Assert.IsFalse(l_PoolStatistic.State.LimitReached);
+            Assert.AreEqual(24, l_PoolStatistic.State.BlocksInUse);
 
             l_Provider.BlocksInUse = 55;
             l_PoolStatistic.UpdateState();
-            Assert.Equal(PoolWatcherPoolTrend.Growing, l_PoolStatistic.State.Trend);
-            Assert.True(l_PoolStatistic.State.LimitReached);
-            Assert.Equal(55, l_PoolStatistic.State.BlocksInUse);
+            Assert.AreEqual(PoolWatcherPoolTrend.Growing, l_PoolStatistic.State.Trend);
+            Assert.IsTrue(l_PoolStatistic.State.LimitReached);
+            Assert.AreEqual(55, l_PoolStatistic.State.BlocksInUse);
 
 
         }

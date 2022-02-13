@@ -4,14 +4,15 @@ using System.Text;
 using MicroLikeAppFramework.PooledMemoryStreams;
 using MicroLikeAppFramework.PooledMemoryStreams.Builders;
 using MicroLikeAppFramework.PooledMemoryStreams.Pools.Array;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MicroLikeAppFramework.PooledMemoryStream.Test
 {
+    [TestClass]
     public class PooledMemoryStreamManagerTest
     {
 
-        [Fact]
+        [TestMethod]
         public void WriteAndReadTest()
         {
             UTF8Encoding l_Encoding = new UTF8Encoding(false);
@@ -31,8 +32,8 @@ namespace MicroLikeAppFramework.PooledMemoryStream.Test
                 }
 
                 int l_ByteCount = l_Encoding.GetByteCount("Hallo" + Environment.NewLine);
-                Assert.Equal(l_ByteCount * 100000, (int)l_Stream.Length);
-                Assert.Equal(l_ByteCount * 100000, (int)l_Stream.Position);
+                Assert.AreEqual(l_ByteCount * 100000, (int)l_Stream.Length);
+                Assert.AreEqual(l_ByteCount * 100000, (int)l_Stream.Position);
 
                 l_Stream.Position = 0;
                 
@@ -42,7 +43,7 @@ namespace MicroLikeAppFramework.PooledMemoryStream.Test
                     for (int i = 0; i < 100000; i++)
                     {
                         string l_ReadLine = l_StreamReader.ReadLine();
-                        Assert.Equal("Hallo", l_ReadLine);
+                        Assert.AreEqual("Hallo", l_ReadLine);
                     }
                 }
             }

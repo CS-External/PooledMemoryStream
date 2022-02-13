@@ -1,12 +1,6 @@
-﻿using BenchmarkDotNet.Running;
+﻿// See https://aka.ms/new-console-template for more information
 
-namespace MicroLikeAppFramework.PooledMemoryStream.Benchmark
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            var summary = BenchmarkRunner.Run(typeof(Program).Assembly);
-        }
-    }
-}
+using BenchmarkDotNet.Running;
+
+var summary = BenchmarkRunner.Run(typeof(Program).Assembly);
+

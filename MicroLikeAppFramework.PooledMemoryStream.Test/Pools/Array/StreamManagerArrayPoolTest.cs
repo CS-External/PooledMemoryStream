@@ -1,12 +1,13 @@
 ﻿using MicroLikeAppFramework.PooledMemoryStreams.Pools;
 using MicroLikeAppFramework.PooledMemoryStreams.Pools.Array;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MicroLikeAppFramework.PooledMemoryStream.Test.Pools.Array
 {
+    [TestClass]
     public class StreamManagerArrayPoolTest: StreamManagerPoolTestBase
     {
-        [Fact]
+        [TestMethod]
         public void ReuseInstanceTest()
         {
             StreamManagerPool l_StreamManagerPool = CreatePool();
@@ -15,7 +16,7 @@ namespace MicroLikeAppFramework.PooledMemoryStream.Test.Pools.Array
 
             MemoryBlock l_Block2 = l_StreamManagerPool.GetBlock();
 
-            Assert.Equal(l_Block, l_Block2);
+            Assert.AreEqual(l_Block, l_Block2);
         }
 
 

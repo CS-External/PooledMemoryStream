@@ -4,14 +4,15 @@ using MicroLikeAppFramework.PooledMemoryStreams.PoolPolicies;
 using MicroLikeAppFramework.PooledMemoryStreams.PoolPolicies.Common;
 using MicroLikeAppFramework.PooledMemoryStreams.Pools;
 using MicroLikeAppFramework.PooledMemoryStreams.Pools.Array;
-using Xunit;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace MicroLikeAppFramework.PooledMemoryStream.Test.PoolPolicies.Common
 {
+    [TestClass]
     public class StreamManagerPoolIntervalCalculatorTest
     {
 
-        [Fact]
+        [TestMethod]
         public void CalcIntervalTest()
         {
 
@@ -24,26 +25,26 @@ namespace MicroLikeAppFramework.PooledMemoryStream.Test.PoolPolicies.Common
             StreamManagerPoolIntervalCalculator l_Calculator = new StreamManagerPoolIntervalCalculator();
             List<PoolChooserPolicyPoolItem> l_Intervals = l_Calculator.CalcIntervals(l_Pools);
 
-            Assert.Equal(4, l_Intervals.Count);
+            Assert.AreEqual(4, l_Intervals.Count);
 
-            Assert.Equal(0, l_Intervals[0].Start);
-            Assert.Equal(8192, l_Intervals[0].End);
-            Assert.Equal(l_Pools[0], l_Intervals[0].Pool);
+            Assert.AreEqual(0, l_Intervals[0].Start);
+            Assert.AreEqual(8192, l_Intervals[0].End);
+            Assert.AreEqual(l_Pools[0], l_Intervals[0].Pool);
 
-            Assert.Equal(8193, l_Intervals[1].Start);
-            Assert.Equal(30720, l_Intervals[1].End);
-            Assert.Equal(l_Pools[1], l_Intervals[1].Pool);
+            Assert.AreEqual(8193, l_Intervals[1].Start);
+            Assert.AreEqual(30720, l_Intervals[1].End);
+            Assert.AreEqual(l_Pools[1], l_Intervals[1].Pool);
 
-            Assert.Equal(30721, l_Intervals[2].Start);
-            Assert.Equal(92160, l_Intervals[2].End);
-            Assert.Equal(l_Pools[2], l_Intervals[2].Pool);
+            Assert.AreEqual(30721, l_Intervals[2].Start);
+            Assert.AreEqual(92160, l_Intervals[2].End);
+            Assert.AreEqual(l_Pools[2], l_Intervals[2].Pool);
 
-            Assert.Equal(92161, l_Intervals[3].Start);
-            Assert.Equal(Int64.MaxValue, l_Intervals[3].End);
-            Assert.Equal(l_Pools[3], l_Intervals[3].Pool);
+            Assert.AreEqual(92161, l_Intervals[3].Start);
+            Assert.AreEqual(Int64.MaxValue, l_Intervals[3].End);
+            Assert.AreEqual(l_Pools[3], l_Intervals[3].Pool);
         }
 
-        [Fact]
+        [TestMethod]
         public void CalcIntervalMaxValueTest()
         {
 
@@ -56,23 +57,23 @@ namespace MicroLikeAppFramework.PooledMemoryStream.Test.PoolPolicies.Common
             StreamManagerPoolIntervalCalculator l_Calculator = new StreamManagerPoolIntervalCalculator();
             List<PoolChooserPolicyPoolItem> l_Intervals = l_Calculator.CalcIntervals(l_Pools);
 
-            Assert.Equal(4, l_Intervals.Count);
+            Assert.AreEqual(4, l_Intervals.Count);
 
-            Assert.Equal(0, l_Intervals[0].Start);
-            Assert.Equal(8192, l_Intervals[0].End);
-            Assert.Equal(l_Pools[0], l_Intervals[0].Pool);
+            Assert.AreEqual(0, l_Intervals[0].Start);
+            Assert.AreEqual(8192, l_Intervals[0].End);
+            Assert.AreEqual(l_Pools[0], l_Intervals[0].Pool);
 
-            Assert.Equal(8193, l_Intervals[1].Start);
-            Assert.Equal(30720, l_Intervals[1].End);
-            Assert.Equal(l_Pools[1], l_Intervals[1].Pool);
+            Assert.AreEqual(8193, l_Intervals[1].Start);
+            Assert.AreEqual(30720, l_Intervals[1].End);
+            Assert.AreEqual(l_Pools[1], l_Intervals[1].Pool);
 
-            Assert.Equal(30721, l_Intervals[2].Start);
-            Assert.Equal(645120, l_Intervals[2].End);
-            Assert.Equal(l_Pools[2], l_Intervals[2].Pool);
+            Assert.AreEqual(30721, l_Intervals[2].Start);
+            Assert.AreEqual(645120, l_Intervals[2].End);
+            Assert.AreEqual(l_Pools[2], l_Intervals[2].Pool);
 
-            Assert.Equal(645121, l_Intervals[3].Start);
-            Assert.Equal(Int64.MaxValue, l_Intervals[3].End);
-            Assert.Equal(l_Pools[3], l_Intervals[3].Pool);
+            Assert.AreEqual(645121, l_Intervals[3].Start);
+            Assert.AreEqual(Int64.MaxValue, l_Intervals[3].End);
+            Assert.AreEqual(l_Pools[3], l_Intervals[3].Pool);
         }
 
     }
